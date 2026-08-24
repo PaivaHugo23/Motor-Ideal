@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Simples</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <header>
+        <span>MOTOR IDEAL</span>
+    </header>  
+    <section class = "HERO">
+        <div class="box-img"></div>
+        <div class="box-txt"><form id="formulario">
+
+            <!-- Tipo -->
+         <label for="tipo">Tipo do portão:</label>
+         <select id="tipo" name="tipo" required>
+            <option value="">Selecione</option>
+            <option value="deslizante">Deslizante</option>
+            <option value="basculante">Basculante</option>
+            <option value="Pivotante">Pivotante</option>
+         </select>
+
+        <!-- Largura -->
+         <label for="largura">Largura do portão (m):</label>
+         <input type="number" id="largura" name="largura" step="0.1" required>
+
+        <!-- Peso -->
+         <label for="peso">Peso estimado do portão:</label>
+         <select id="peso" name="peso" required>
+            <option value="">Selecione</option>
+            <option value="300kg">300kg</option>
+            <option value="350kg">350kg</option>
+            <option value="400kg">400kg</option>
+            <option value="450kg">450kg</option>
+            <option value="+450kg">+450kg</option>
+            <option value="+800kg">+800kg</option>
+         </select>
+
+        <!-- Alto fluxo -->
+         <label for="altofluxo">Alto-fluxo:</label>
+         <select id="altofluxo" name="altofluxo" required>
+            <option value="">Selecione</option>
+            <option value="sim">SIM</option>
+            <option value="nao">NÃO</option>
+         </select>
+
+         <!-- Campo adicional para basculante -->
+    <div id="campo-giro" style="display: none;">
+      <label for="pontoGiro">Ponto de giro (m):</label>
+      <input type="number" id="pontoGiro" name="pontoGiro" step="0.1">
+    </div>
+
+    <!-- Botão -->
+    <button type="submit">Ver motores compatíveis</button>
+  </form>
+
+  <!-- Resultado aparecerá aqui -->
+  <div id="resultado"></div>
+
+  <!-- Script para exibir o campo de ponto de giro -->
+  <script>
+    const tipoSelect = document.getElementById("tipo");
+    const campoGiro = document.getElementById("campo-giro");
+
+    tipoSelect.addEventListener("change", function () {
+      if (this.value === "basculante") {
+        campoGiro.style.display = "block";
+      } else {
+        campoGiro.style.display = "none";
+      }
+    });
+  </script>
+
+
+
+
+
+        
+
+         
+    
+    </form>
+
+    <script src="script.js"></script></div>
+    </section>
+</body>
+</html>
