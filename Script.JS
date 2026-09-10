@@ -1,118 +1,750 @@
-document.getElementById("formulario").addEventListener("submit", function (e) {
-  e.preventDefault();
+// =========================================================
+// ELEMENTOS DO HTML
+// =========================================================
 
-  const largura = parseFloat(document.getElementById("largura").value);
-  const pesoSelecionado = document.getElementById("peso").value;
-  const tipo = document.getElementById("tipo").value;
-  const pontoGiro = parseFloat(document.getElementById("pontoGiro").value);
-  const altofluxo = document.getElementById("altofluxo").value;
+const formulario = document.getElementById("formulario");
+const resultado = document.getElementById("resultado");
 
-  let motoresPossiveis = [];
+const tipoSelect = document.getElementById("tipo");
 
-  if (tipo !== "basculante") {
-    document.getElementById("resultado").innerText = "Por enquanto só tratamos portões basculantes.";
-    return;
-  }
+const campoGiro = document.getElementById("campo-giro");
+const campoPivotante = document.getElementById("campo-pivotante");
+const pontoPivotanteSelect = document.getElementById("pontoPivotante");
 
-  // Etapa 1: Filtrar pela largura
-  if (largura <= 3) {
-    motoresPossiveis = ["bv_home_mono", "bv_home_legero", "bv_home_jetflex", "bv_potenza_mono", "bv_potenza_legero", "bv_potenza_jetflex"];
-  } else if (largura <= 4) {
-    motoresPossiveis = ["bv_potenza_mono", "bv_potenza_legero", "bv_potenza_jetflex", "bv_penta_jet", "bv_penta_mono", "bv_penta_legero", "bv_condominio"];
-  } else if (largura <= 7) {
-    motoresPossiveis = ["2x_bv_penta_jetflex"];
-  } else {
-    motoresPossiveis = ["bv_celtron"];
-  }
 
-  // Etapa 2: Filtrar por peso (agora com select em texto)
-  switch (pesoSelecionado) {
-    case "300kg":
-      motoresPossiveis = motoresPossiveis.filter(motor => motor.includes("bv_home"));
-      break;
-    case "350kg":
-      motoresPossiveis = motoresPossiveis.filter(motor =>
-        ["bv_home_jetflex", "bv_potenza_mono", "bv_potenza_legero"].includes(motor)
-      );
-      break;
-    case "400kg":
-      motoresPossiveis = motoresPossiveis.filter(motor =>
-        ["bv_potenza_jetflex", "bv_penta_mono", "bv_penta_legero"].includes(motor)
-      );
-      break;
-    case "450kg":
-      motoresPossiveis = motoresPossiveis.filter(motor =>
-        ["bv_penta_jetflex", "bv_condominio", "2x_bv_penta_jetflex"].includes(motor)
-      );
-      break;
-    case "+450kg":
-      motoresPossiveis = motoresPossiveis.filter(motor =>
-        ["2x_bv_penta_jetflex", "bv_condominio"].includes(motor)
-      );
-      break;
-    case "+800kg":
-      motoresPossiveis = ["bv_celtron"];
-      break;
-    default:
-      motoresPossiveis = [];
-  }
+// =========================================================
+// ORDEM DAS CHAPAS
+// =========================================================
+//
+// IMPORTANTE:
+//
+// Quanto menor o número da chapa,
+// mais grossa é a chapa.
+//
+// 24 → mais fina
+// 22
+// 20
+// 18
+// 16
+// 14 → mais grossa
+//
+// =========================================================
 
-  // Etapa 3: Filtrar por alto fluxo
-  if (altofluxo === "sim") {
-    motoresPossiveis = motoresPossiveis.filter(motor => motor === "bv_condominio");
-  }
+const ordemChapas = [24, 22, 20, 18, 16, 14];
 
-  // Etapa 4: Escolher ACC conforme ponto de giro
-  let acc = "";
-  if (pontoGiro <= 1.5) {
-    if (motoresPossiveis.some(m => m.includes("penta"))) {
-      acc = "ACC 1,5m";
+
+// =========================================================
+// MOSTRAR / OCULTAR CAMPOS
+// =========================================================
+
+tipoSelect.addEventListener("change", function () {
+
+    // =====================================================
+    // PORTÃO BASCULANTE
+    // =====================================================
+
+    if (this.value === "basculante") {
+
+        campoGiro.style.display = "block";
+
     } else {
-      acc = "ACC 1,4m";
+
+        campoGiro.style.display = "none";
+
     }
-  } else if (pontoGiro <= 2) {
-    acc = "ACC 2m";
-  } else if (pontoGiro <= 2.5) {
-    acc = "ACC 2,5m";
-  } else if (pontoGiro <= 4) {
-    acc = "ACC 4m";
-  }
 
-  // Links para os motores
-  const links = {
-    bv_home_mono: ["BV Home Mono", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-home/bv-home-mono"],
-    bv_home_legero: ["BV Home Legero", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-home/bv-home-legero"],
-    bv_home_jetflex: ["BV Home JetFlex", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-home/bv-home-jetflex"],
-    bv_potenza_mono: ["BV Potenza Mono", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-potenza/bv-potenza-mono"],
-    bv_potenza_legero: ["BV Potenza Legero", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-potenza/bv-potenza-legero"],
-    bv_potenza_jetflex: ["BV Potenza JetFlex", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-potenza/bv-potenza-jetflex"],
-    bv_penta_mono: ["BV Penta Mono", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-penta/bv-penta-mono"],
-    bv_penta_legero: ["BV Penta Legero", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-penta/bv-penta-legero"],
-    bv_penta_jet: ["BV Penta JetFlex", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-penta/bv-penta-jetflex"],
-    bv_penta_jetflex: ["BV Penta JetFlex", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-penta/bv-penta-jetflex"],
-    "2x_bv_penta_jetflex": ["2x BV Penta JetFlex", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-penta/bv-penta-jetflex"],
-    bv_condominio: ["BV Condomínio", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-condominio/bv-condominio-jetflex"],
-    bv_celtron: ["BV Celtron", "https://ppa.com.br/brasil/products/automatizadores-basculantes/bv-celtron"]
-  };
 
-  // Resultado
-  if (motoresPossiveis.length === 0) {
-    document.getElementById("resultado").innerHTML = "Nenhum motor encontrado para os parâmetros informados.";
-    return;
-  }
+    // =====================================================
+    // PORTÃO PIVOTANTE
+    // =====================================================
 
-  let resultadoHtml = "<h3>Os motores ideais para seu portão são:</h3><ul>";
+    if (this.value === "pivotante") {
 
-  motoresPossiveis.forEach(motor => {
-    if (links[motor]) {
-      const [nome, url] = links[motor];
-      resultadoHtml += `<li><a href="${url}" target="_blank">${nome}</a></li>`;
+        campoPivotante.style.display = "block";
+
+        pontoPivotanteSelect.style.display = "block";
+
     } else {
-      resultadoHtml += `<li>${motor}</li>`;
+
+        campoPivotante.style.display = "none";
+
+        pontoPivotanteSelect.style.display = "none";
+
     }
-  });
 
-  resultadoHtml += `</ul><p>O ACC indicado é: <strong>${acc}</strong></p>`;
+});
 
-  document.getElementById("resultado").innerHTML = resultadoHtml;
+
+// =========================================================
+// BANCO DE MOTORES DESLIZANTES
+// =========================================================
+
+const motoresDeslizantes = [
+
+    // =====================================================
+    // DZ RIO 400 MONO
+    // =====================================================
+
+    {
+        nome: "DZ Rio 400 Mono",
+
+        larguraMax: 3,
+
+        altoFluxo: "nao",
+
+        // Chapa 24 até Chapa 20
+        chapaMin: 24,
+        chapaMax: 20,
+
+        cremalheira: {
+            tipo: "Residencial",
+            tamanhoBarra: 1.5
+        },
+
+        link: ""
+    },
+
+
+    // =====================================================
+    // DZ STARK 600 MONO
+    // =====================================================
+
+    {
+        nome: "DZ Stark 600 Mono",
+
+        larguraMax: 3,
+
+        altoFluxo: "nao",
+
+        // Chapa 24 até Chapa 20
+        chapaMin: 24,
+        chapaMax: 20,
+
+        cremalheira: {
+            tipo: "Residencial",
+            tamanhoBarra: 1.5
+        },
+
+        link: ""
+    },
+
+
+    // =====================================================
+    // DZ RIO 500 JET
+    // =====================================================
+
+    {
+        nome: "DZ Rio 500 Jet",
+
+        larguraMax: 3,
+
+        altoFluxo: "nao",
+
+        // Chapa 24 até Chapa 20
+        chapaMin: 24,
+        chapaMax: 20,
+
+        cremalheira: {
+            tipo: "Residencial",
+            tamanhoBarra: 1.5
+        },
+
+        link: ""
+    },
+
+
+    // =====================================================
+    // DZ RIO 500 MONO
+    // =====================================================
+
+    {
+        nome: "DZ Rio 500 Mono",
+
+        larguraMax: 5,
+
+        altoFluxo: "nao",
+
+        // Chapa 24 até Chapa 18
+        chapaMin: 24,
+        chapaMax: 18,
+
+        cremalheira: {
+            tipo: "Residencial",
+            tamanhoBarra: 1.5
+        },
+
+        link: ""
+    },
+
+
+    // =====================================================
+    // DZ RIO 600 JET
+    // =====================================================
+
+    {
+        nome: "DZ Rio 600 Jet",
+
+        larguraMax: 5,
+
+        altoFluxo: "nao",
+
+        // Chapa 24 até Chapa 18
+        chapaMin: 24,
+        chapaMax: 18,
+
+        cremalheira: {
+            tipo: "Residencial",
+            tamanhoBarra: 1.5
+        },
+
+        link: ""
+    },
+
+
+    // =====================================================
+    // DZ RIO 700 MONO
+    // =====================================================
+
+    {
+        nome: "DZ Rio 700 Mono",
+
+        larguraMax: 5,
+
+        altoFluxo: "nao",
+
+        // Chapa 24 até Chapa 16
+        chapaMin: 24,
+        chapaMax: 16,
+
+        cremalheira: {
+            tipo: "Residencial",
+            tamanhoBarra: 1.5
+        },
+
+        link: "https://www.ppa.com.br/brasil/products/automatizadores-deslizantes/dz-rio/dz-rio-mono"
+    },
+
+
+    // =====================================================
+    // DZ RIO 800 JET
+    // =====================================================
+
+    {
+        nome: "DZ Rio 800 Jet",
+
+        larguraMax: 5,
+
+        altoFluxo: "nao",
+
+        // Chapa 24 até Chapa 16
+        chapaMin: 24,
+        chapaMax: 16,
+
+        cremalheira: {
+            tipo: "Residencial",
+            tamanhoBarra: 1.5
+        },
+
+        link: "https://www.ppa.com.br/brasil/products/automatizadores-deslizantes/dz-rio/dz-rio-jetflex"
+    },
+
+
+    // =====================================================
+    // DZ CONDOMINIUM JETFLEX
+    // =====================================================
+
+    {
+        nome: "DZ Condominium Jetflex",
+
+        larguraMax: 5,
+
+        altoFluxo: "sim",
+
+        // Chapa 24 até Chapa 16
+        chapaMin: 24,
+        chapaMax: 16,
+
+        cremalheira: {
+            tipo: "Industrial",
+            tamanhoBarra: 1.5
+        },
+
+        link: "https://www.ppa.com.br/brasil/products/automatizadores-deslizantes/dz-condominium/dz-condominium-jetflex-1"
+    },
+
+
+    // =====================================================
+    // DZ 1500 JET
+    // =====================================================
+
+    {
+        nome: "DZ 1500 Jet",
+
+        larguraMax: 7,
+
+        altoFluxo: "sim",
+
+        // Chapa 24 até Chapa 16
+        chapaMin: 24,
+        chapaMax: 16,
+
+        cremalheira: {
+            tipo: "Industrial",
+            tamanhoBarra: 1.5
+        },
+
+        link: ""
+    },
+
+
+    // =====================================================
+    // DZ BRUTALLE 3T
+    // =====================================================
+
+    {
+        nome: "DZ Brutalle 3T",
+
+        larguraMax: 8,
+
+        altoFluxo: "sim",
+
+        // Chapa 24 até Chapa 14
+        chapaMin: 24,
+        chapaMax: 14,
+
+        cremalheira: {
+            tipo: "Industrial",
+            tamanhoBarra: 1.5
+        },
+
+        link: "https://www.ppa.com.br/brasil/products/automatizadores-deslizantes/dz-brutalle/dz-brutalle-jetflex"
+    }
+
+];
+
+
+// =========================================================
+// FORMULÁRIO
+// =========================================================
+
+formulario.addEventListener("submit", function (e) {
+
+    e.preventDefault();
+
+
+    // =====================================================
+    // PEGAR INFORMAÇÕES
+    // =====================================================
+
+    const tipo =
+        document.getElementById("tipo").value;
+
+
+    const larguraOriginal =
+        parseFloat(
+            document.getElementById("largura").value
+        );
+
+
+    const altoFluxoInformado =
+        document.getElementById("altofluxo").value;
+
+
+    const chapa =
+        parseInt(
+            document.getElementById("chapa").value
+        );
+
+
+    // =====================================================
+    // VALIDAR LARGURA
+    // =====================================================
+
+    if (
+        isNaN(larguraOriginal) ||
+        larguraOriginal <= 0
+    ) {
+
+        resultado.innerHTML = `
+            <h3>Largura inválida</h3>
+
+            <p>
+                Informe uma largura válida para o portão.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    // =====================================================
+    // ARREDONDAR LARGURA PARA CIMA
+    // =====================================================
+    //
+    // Exemplos:
+    //
+    // 3,60 → 3,6
+    // 3,61 → 3,7
+    // 3,65 → 3,7
+    // 3,69 → 3,7
+    // 3,71 → 3,8
+    //
+    // =====================================================
+
+    const largura =
+        Math.ceil(larguraOriginal * 10) / 10;
+
+
+    // =====================================================
+    // VERIFICAR TIPO DE PORTÃO
+    // =====================================================
+
+    if (tipo !== "deslizante") {
+
+        resultado.innerHTML = `
+            <h3>Em desenvolvimento</h3>
+
+            <p>
+                Por enquanto, o sistema está trabalhando
+                somente com portões deslizantes.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    // =====================================================
+    // VERIFICAR CHAPA
+    // =====================================================
+
+    const indiceChapaUsuario =
+        ordemChapas.indexOf(chapa);
+
+
+    if (indiceChapaUsuario === -1) {
+
+        resultado.innerHTML = `
+            <h3>Chapa inválida</h3>
+
+            <p>
+                A chapa informada não está cadastrada
+                no sistema.
+            </p>
+        `;
+
+        return;
+    }
+
+
+    // =====================================================
+    // DEFINIR QUAL TIPO DE MOTOR PROCURAR
+    // =====================================================
+    //
+    // CASO 1:
+    //
+    // Usuário marcou ALTO FLUXO = SIM
+    //
+    // → Procuramos motores industriais.
+    //
+    //
+    // CASO 2:
+    //
+    // Usuário marcou ALTO FLUXO = NÃO
+    // E largura <= 5m
+    //
+    // → Procuramos motores residenciais.
+    //
+    //
+    // CASO 3:
+    //
+    // Usuário marcou ALTO FLUXO = NÃO
+    // Porém largura > 5m
+    //
+    // → Procuramos motores industriais.
+    //
+    // Isso acontece porque motores residenciais
+    // não atendem larguras superiores a 5m.
+    //
+    // =====================================================
+
+    let tipoFluxoProcurado;
+
+
+    if (altoFluxoInformado === "sim") {
+
+        tipoFluxoProcurado = "sim";
+
+    } else if (largura > 5) {
+
+        tipoFluxoProcurado = "sim";
+
+    } else {
+
+        tipoFluxoProcurado = "nao";
+
+    }
+
+
+    // =====================================================
+    // FILTRAR MOTORES
+    // =====================================================
+
+    const motoresCompativeis =
+        motoresDeslizantes.filter(function (motor) {
+
+
+            // =================================================
+            // LARGURA
+            // =================================================
+
+            const larguraCompativel =
+                largura <= motor.larguraMax;
+
+
+            // =================================================
+            // ALTO FLUXO
+            // =================================================
+
+            const fluxoCompativel =
+                motor.altoFluxo === tipoFluxoProcurado;
+
+
+            // =================================================
+            // CHAPA
+            // =================================================
+
+            const indiceChapaMin =
+                ordemChapas.indexOf(motor.chapaMin);
+
+
+            const indiceChapaMax =
+                ordemChapas.indexOf(motor.chapaMax);
+
+
+            const chapaCompativel =
+                indiceChapaUsuario >= indiceChapaMin &&
+                indiceChapaUsuario <= indiceChapaMax;
+
+
+            // =================================================
+            // MOTOR COMPATÍVEL
+            // =================================================
+
+            return (
+                larguraCompativel &&
+                fluxoCompativel &&
+                chapaCompativel
+            );
+
+        });
+
+
+    // =====================================================
+    // NENHUM MOTOR
+    // =====================================================
+
+    if (motoresCompativeis.length === 0) {
+
+        resultado.innerHTML = `
+
+            <h3>
+                Nenhum motor encontrado
+            </h3>
+
+            <p>
+                Não encontramos um automatizador
+                compatível com as características
+                informadas.
+            </p>
+
+            <p>
+                <strong>
+                    Largura considerada:
+                </strong>
+
+                ${largura.toFixed(1)} m
+            </p>
+
+        `;
+
+        return;
+    }
+
+
+    // =====================================================
+    // CALCULAR CREMALHEIRA
+    // =====================================================
+
+    const tamanhoBarraCremalheira = 1.5;
+
+
+    const quantidadeCremalheiras =
+        Math.ceil(
+            largura /
+            tamanhoBarraCremalheira
+        );
+
+
+    // =====================================================
+    // COMEÇAR RESULTADO
+    // =====================================================
+
+    let resultadoHTML = `
+
+        <h3>
+            Motor(es) compatível(is):
+        </h3>
+
+        <p>
+            <strong>
+                Largura informada:
+            </strong>
+
+            ${larguraOriginal.toFixed(2)} m
+        </p>
+
+        <p>
+            <strong>
+                Largura considerada:
+            </strong>
+
+            ${largura.toFixed(1)} m
+        </p>
+
+    `;
+
+
+    // =====================================================
+    // AVISO PARA PORTÕES MAIORES QUE 5M
+    // =====================================================
+
+    if (
+        altoFluxoInformado === "nao" &&
+        largura > 5
+    ) {
+
+        resultadoHTML += `
+
+            <p>
+
+                <strong>
+                    Atenção:
+                </strong>
+
+                Apesar de o portão não ser de alto fluxo,
+                sua largura ultrapassa 5 metros.
+
+                Por isso, foram considerados
+                automatizadores industriais de maior
+                robustez.
+
+            </p>
+
+        `;
+
+    }
+
+
+    // =====================================================
+    // LISTAR MOTORES
+    // =====================================================
+
+    motoresCompativeis.forEach(function (motor) {
+
+
+        // =================================================
+        // CALCULAR CREMALHEIRA DESTE MOTOR
+        // =================================================
+
+        const quantidadeCremalheirasMotor =
+            Math.ceil(
+                largura /
+                motor.cremalheira.tamanhoBarra
+            );
+
+
+        // =================================================
+        // MOSTRAR MOTOR
+        // =================================================
+
+        resultadoHTML += `
+
+            <div class="motor-resultado">
+
+                <h4>
+                    ${motor.nome}
+                </h4>
+
+                <p>
+                    <strong>
+                        Automatizador:
+                    </strong>
+
+                    1 unidade
+                </p>
+
+                <p>
+                    <strong>
+                        Cremalheira:
+                    </strong>
+
+                    ${motor.cremalheira.tipo}
+                </p>
+
+                <p>
+                    <strong>
+                        Quantidade:
+                    </strong>
+
+                    ${quantidadeCremalheirasMotor}
+                    barra(s) de
+                    ${motor.cremalheira.tamanhoBarra} m
+                </p>
+
+        `;
+
+
+        // =================================================
+        // LINK DO MOTOR
+        // =================================================
+
+        if (motor.link !== "") {
+
+            resultadoHTML += `
+
+                <p>
+
+                    <a
+                        href="${motor.link}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Ver automatizador no site da PPA
+                    </a>
+
+                </p>
+
+            `;
+
+        }
+
+
+        resultadoHTML += `
+
+            </div>
+
+            <hr>
+
+        `;
+
+    });
+
+
+    // =====================================================
+    // EXIBIR RESULTADO
+    // =====================================================
+
+    resultado.innerHTML = resultadoHTML;
+
 });
