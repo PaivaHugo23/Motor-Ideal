@@ -3,118 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
     <title>Site Simples</title>
     <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
     <header>
-        <span>MOTOR IDEAL</span>
+        <nav id="navbar">
+            <i class="fa-solid fa-house" id="nav_logo">MOTOR IDEAL </i>
+            <ul id="nav_list">
+                <li class="nav-item">
+                    <a href="home">Inicio</a>
+                </li>
+            </ul>
+            <button class="btn-default">
+                Calcular seu motor ideal
+            </button>
+        </nav>
     </header>  
-    <section class = "HERO">
-        <div class="box-img"></div>
-        <div class="box-txt"><form id="formulario">
+    <section class="HERO">
+        <div class="box-img">
+        </div>
+        <div class="box-txt">
+            <form id="formulario">
+                <label for="tipo">
+                    Tipo do portão:
+                </label>
+                <select
+                    id="tipo"
+                    name="tipo"
+                    required
+                >
+                    <option value="">
+                        Selecione
+                    </option>
+                    <option value="deslizante">
+                        Deslizante
+                    </option>
+                    <option value="basculante">
+                        Basculante
+                    </option>
+                    <option value="pivotante">
+                        Pivotante
+                    </option>
+                </select>
 
-            <!-- Tipo do motor -->
-         <label for="tipo">Tipo do portão:</label>
-         <select id="tipo" name="tipo" required>
-            <option value="">Selecione</option>
-            <option value="deslizante">Deslizante</option>
-            <option value="basculante">Basculante</option>
-            <option value="pivotante">Pivotante</option>
-         </select>
+                <!-- LARGURA DO PORTÃO -->
 
-        <!-- Largura do motor -->
-         <label for="largura">Largura do portão (m):</label>
-         <input type="number" id="largura" name="largura" step="any" min="0" required>
+                <label for="largura">
+                    Largura Total do portão (m):
+                </label>
 
-        <!-- Alto fluxo -->
-         <label for="altofluxo">Alto-fluxo:</label>
-         <select id="altofluxo" name="altofluxo" required>
-            <option value="">Selecione</option>
-            <option value="sim">SIM</option>
-            <option value="nao">NÃO</option>
-         </select>
+                <input
+                    type="number"
+                    id="largura"
+                    name="largura"
+                    step="any"
+                    min="0"
+                    placeholder="Ex.: 4.5"
+                    required
+                >
 
-         <!-- Chapa do Portão -->
-        <label for="chapa">Chapa do portão:</label>
-        <select id="chapa" name="chapa" required>
-            <option value="">Selecione</option>
-            <option value="24">Chapa 24</option>
-            <option value="22">Chapa 22</option>
-            <option value="20">Chapa 20</option>
-            <option value="18">Chapa 18</option>
-            <option value="16">Chapa 16</option>
-            <option value="14">Chapa 14</option>
-        </select>
+                <!-- ALTO FLUXO -->
 
-         <!-- Campo adicional para basculante -->
-    <div id="campo-giro" style="display: none;">
-      <label for="pontoGiro">Ponto de giro (m):</label>
-      <input type="number" id="pontoGiro" name="pontoGiro" step="0.1">
-    </div>
-
-        <!-- Campo adicional para Pivotante -->
-    <label for="pontoPivotante" id="campo-pivotante" style="display: none;">Tipo de Portão Pivotante:</label>
-    <select id="pontoPivotante" name="pontoPivotante" style="display: none;">
-      <option value="">Selecione</option>
-      <option value="Folha simples">Folha simples</option>
-      <option value="Folha dupla">Folha dupla</option>
-    </select>
+                <label for="altofluxo">
+                    Alto-fluxo:
+                </label>
 
 
+                <select
+                    id="altofluxo"
+                    name="altofluxo"
+                    required
+                >
 
-    <!-- Botão -->
-    <button type="submit">Ver motores compatíveis</button>
-  </form>
+                    <option value="">
+                        Selecione
+                    </option>
 
-  <!-- Resultado aparecerá aqui -->
-  <div id="resultado"></div>
+                    <option value="sim">
+                        SIM
+                    </option>
 
-  <!-- Script para exibir o campo de ponto de giro -->
-  <div id="campo-giro" style="display: none;">
+                    <option value="nao">
+                        NÃO
+                    </option>
 
-    <label for="pontoGiro">
-        Ponto de giro (m):
-    </label>
+                    <option value="medio">
+                        MÉDIO
+                    </option>
 
-    <input
-        type="number"
-        id="pontoGiro"
-        name="pontoGiro"
-        step="0.1"
-    >
-
-</div>
+                </select>
 
 
-  <!-- Script para exibir o campo de ponto de pivotante -->
-  <label
-    for="pontoPivotante"
-    id="campo-pivotante"
-    style="display: none;"
->
-    Tipo de Portão Pivotante:
-</label>
 
-<select
-    id="pontoPivotante"
-    name="pontoPivotante"
-    style="display: none;"
->
+                <!-- CHAPA DO PORTÃO -->
 
-    <option value="">Selecione</option>
+                <label for="chapa">
+                    Chapa do portão:
+                </label>
 
-    <option value="folha simples">
-        Folha simples
-    </option>
 
-    <option value="folha dupla">
-        Folha dupla
-    </option>
+                <select
+                    id="chapa"
+                    name="chapa"
+                    required
+                >
 
-</select>
+                    <option value="">
+                        Selecione
+                    </option>
 
-    <script src="script.js"></script></div>
+                    <option value="24">
+                        Chapa 24
+                    </option>
+
+                    <option value="22">
+                        Chapa 22
+                    </option>
+
+                    <option value="20">
+                        Chapa 20
+                    </option>
+
+                    <option value="18">
+                        Chapa 18
+                    </option>
+
+                    <option value="16">
+                        Chapa 16
+                    </option>
+
+                    <option value="14">
+                        Chapa 14
+                    </option>
+
+                </select>
+
+
+
+                <!-- CAMPO DO BASCULANTE -->
+
+                <div
+                    id="campo-giro"
+                    style="display: none;"
+                >
+
+                    <label for="pontoGiro">
+                        Ponto de giro (m):
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="pontoGiro"
+                        name="pontoGiro"
+                        step="0.1"
+                        min="0"
+                    >
+
+                </div>
+
+
+
+                <!-- CAMPO DO PIVOTANTE -->
+
+                <div
+                    id="campo-pivotante"
+                    style="display: none;"
+                >
+
+                    <label for="pontoPivotante">
+                        Tipo de portão pivotante:
+                    </label>
+
+
+                    <select
+                        id="pontoPivotante"
+                        name="pontoPivotante"
+                    >
+
+                        <option value="">
+                            Selecione
+                        </option>
+
+                        <option value="simples">
+                            Folha simples
+                        </option>
+
+                        <option value="dupla">
+                            Folha dupla
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- BOTÃO -->
+
+                <button type="submit">
+                    Ver motores compatíveis
+                </button>
+
+
+            </form>
+
+
+
+            <!-- RESULTADO -->
+
+            <div id="resultado">
+
+            </div>
+
+
+        </div>
+
     </section>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+
+
 </body>
+
 </html>
