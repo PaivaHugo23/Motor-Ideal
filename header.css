@@ -1,0 +1,23 @@
+header{
+    background-color: #e9e614;
+    height: 100%;
+    padding: 24px 8%;   
+}
+
+#navbar {
+    width: 100%;
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+}
+
+#nav_logo {
+    font-size: 24px;
+    color: #000000;
+}
+
+#nav_list {
+    display: flex;
+    list-style: none;
+    gap: 48pix;
+}
