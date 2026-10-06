@@ -1,8 +1,23 @@
-/* Cabeçalho — carregue depois de estilo.css. */
-header{position:sticky;top:0;z-index:10;background:#f4f5f2f5;border-bottom:1px solid #dfe3da;backdrop-filter:blur(14px)}
-#navbar{max-width:1240px;min-height:83px;margin:auto;padding:16px 36px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-#nav_logo{display:flex;align-items:center;text-decoration:none;font-size:17px;font-weight:800;letter-spacing:-.5px;white-space:nowrap}.brand-light{font-weight:400;margin-left:3px}.brand-dot{color:#819226;font-size:24px}.brand-icon{display:grid;place-items:center;background:#253023;color:#e4ef47;width:33px;height:33px;font-size:19px;border-radius:9px;margin-right:10px;transform:rotate(-4deg)}
-#nav_list{list-style:none;display:flex;gap:30px;margin-left:auto;margin-right:20px}.nav-item a{font-size:12px;text-decoration:none;color:#65705c}.nav-item a:hover{color:#202820}
-.btn-default{display:inline-flex;align-items:center;gap:20px;background:#263022;color:white;text-decoration:none;padding:11px 17px;border-radius:8px;font-size:11px;font-weight:600;transition:background .2s}.btn-default span{color:#e4ef47;font-size:17px}.btn-default:hover{background:#425138}
-@media(max-width:760px){#navbar{min-height:70px;padding:14px 20px;gap:12px}#nav_list{display:none}#nav_logo{font-size:14px}.brand-icon{width:28px;height:28px;margin-right:7px}.btn-default{font-size:10px;padding:9px 12px;gap:9px}}
-@media(max-width:380px){#navbar{padding-inline:14px}.btn-default{max-width:130px;line-height:1.4}#nav_logo{font-size:12px}}
+header{
+    background-color: #e9e614;
+    height: 100%;
+    padding: 24px 8%;   
+}
+
+#navbar {
+    width: 100%;
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+}
+
+#nav_logo {
+    font-size: 24px;
+    color: #000000;
+}
+
+#nav_list {
+    display: flex;
+    list-style: none;
+    gap: 48pix;
+}

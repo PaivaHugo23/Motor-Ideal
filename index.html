@@ -3,44 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motor Ideal • Seleção de automatizadores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+    <title>Site Simples</title>
     <link rel="stylesheet" href="estilo.css">
     <link rel="stylesheet" href="header.css">
 </head>
-<body id="home">
+<body>
     <header>
         <nav id="navbar">
-            <a href="#home" id="nav_logo"><span class="brand-icon" aria-hidden="true">M</span> MOTOR<span class="brand-light">IDEAL</span><span class="brand-dot">.</span></a>
+            <i class="fa-solid fa-house" id="nav_logo">MOTOR IDEAL </i>
 
             <ul id="nav_list">
                 <li class="nav-item">
-                    <a href="#home"> Início </a>
+                    <a href="#home"> Inicio </a>
                 </li>
             </ul>
-            <a class="btn-default" href="#formulario">
-                Encontrar meu motor <span aria-hidden="true">↗</span>
-            </a>
+            <button class="btn-default">
+                Calcular seu motor ideal
+            </button>
         </nav>
     </header>  
-    <main><section class="HERO" aria-label="Seleção de automatizadores">
+    <section class="HERO">
         <div class="box-img">
-            <p class="eyebrow"><span></span> SELEÇÃO DE AUTOMATIZADORES</p>
-            <h1>O movimento<br>certo começa<br>com o <em>motor ideal.</em></h1>
-            <p class="intro">Cada portão tem suas características. Encontre os automatizadores compatíveis com o seu em poucos passos.</p>
-            <div class="gate-scene" aria-hidden="true">
-                <div class="scene-tag">PRECISÃO EM CADA MOVIMENTO <span>↗</span></div>
-                <div class="dimension">LARGURA DO PORTÃO</div>
-                <div class="gate"><div class="gate-post"></div><div class="gate-panel"></div><div class="gate-post"></div></div>
-                <div class="gate-track"></div><div class="gate-motor"><span>M</span></div>
-                <div class="scene-bottom"><span>ESTRUTURA + ACIONAMENTO</span><span>01 / 03</span></div>
-            </div>
-            <div class="gate-types"><span>Deslizante</span><span>Basculante</span><span>Pivotante</span></div>
-            <p class="side-note">Um apoio à escolha. A instalação deve considerar as especificações do fabricante e a avaliação técnica do portão.</p>
         </div>
         <div class="box-txt">
-            <div class="form-heading"><span class="step-label">01 — CONFIGURE SEU PORTÃO</span><h2>Vamos encontrar<br>o seu motor?</h2><p>Informe as características abaixo para começar.</p></div>
             <form id="formulario">
-                <div class="field"><label for="tipo">
+                <label for="tipo">
                     Tipo do portão:
                 </label>
                 <select
@@ -60,11 +48,11 @@
                     <option value="pivotante">
                         Pivotante
                     </option>
-                </select></div>
+                </select>
 
                 <!-- LARGURA DO PORTÃO -->
 
-                <div class="field"><label for="largura">
+                <label for="largura">
                     Largura Total do portão (m):
                 </label>
                 <input
@@ -73,13 +61,13 @@
                     name="largura"
                     step="any"
                     min="0"
-                    placeholder="Ex.: 3,50"
+                    placeholder=""
                     required
-                ></div>
+                >
 
                 <!-- ALTO FLUXO -->
-                <div class="field"><label for="altofluxo">
-                    Intensidade de uso:
+                <label for="altofluxo">
+                    Alto-fluxo:
                 </label>
                 <select
                     id="altofluxo"
@@ -90,18 +78,18 @@
                         Selecione
                     </option>
                     <option value="sim">
-                        Alto fluxo
+                        SIM
                     </option>
                     <option value="nao">
-                        Residencial
+                        NÃO
                     </option>
                     <option value="medio">
-                        Fluxo médio
+                        MÉDIO
                     </option>
-                </select></div>
+                </select>
 
                 <!-- CHAPA DO PORTÃO -->
-                <div class="field"><label for="chapa">
+                <label for="chapa">
                     Chapa do portão:
                 </label>
                 <select
@@ -130,11 +118,11 @@
                     <option value="14">
                         Chapa 14
                     </option>
-                </select></div>
+                </select>
 
                 <!-- CAMPO DO BASCULANTE -->
                 <div id="campo-giro" style="display: none;">
-                    <div class="field"><label for="pontoGiro">
+                    <label for="pontoGiro">
                         Ponto de giro até o topo do portão (m):
                     </label>
                     <input
@@ -143,15 +131,15 @@
                         name="pontoGiro"
                         step="0.1"
                         min="0"
-                    ></div>
-                    <div class="field"><label for="abertura">
+                    >
+                    <label for="abertura">
                         Sentido de abertura:
                     </label>
                     <select id="abertura" name="abertura">
                         <option value="">Selecione</option>
                         <option value="dentro">Para dentro</option>
                         <option value="fora">Para fora</option>
-                    </select></div>
+                    </select>
                 </div>
 
                 <!-- CAMPO DO PIVOTANTE -->
@@ -159,7 +147,7 @@
                     id="campo-pivotante"
                     style="display: none;"
                 >
-                    <div class="field"><label for="pontoPivotante">
+                    <label for="pontoPivotante">
                         Tipo de portão pivotante:
                     </label>
                     <select
@@ -175,7 +163,7 @@
                         <option value="dupla">
                             Folha dupla
                         </option>
-                    </select></div>
+                    </select>
                 </div>
 
                 <!-- BOTÃO -->
@@ -185,9 +173,10 @@
             </form>
 
             <!-- RESULTADO -->
-            <div id="resultado" aria-live="polite"></div>
+            <div id="resultado">
+            </div>
         </div>
-    </section></main><footer><a href="#home">MOTOR IDEAL<span>.</span></a><p>Tecnologia para uma escolha mais precisa.</p><span>PROJETO ACADÊMICO</span></footer>
+    </section>
 
     <!-- JAVASCRIPT -->
     <script src="script.js"></script>
